@@ -1,0 +1,66 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "writing-tool-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-08",
+  "env": {
+    "dev": {
+      "vars": {
+        "R2_URL": "http://localhost:8787/file",
+      },
+      "r2_buckets": [
+        {
+          "bucket_name": "writing-tool",
+          "binding": "R2",
+        },
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "NoteRecordDO",
+            "class_name": "NoteRecordDO",
+          },
+        ],
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "writing-tool",
+          "database_id": "bfabb9ff-3101-4f0b-b0e8-aabf030c1cdd",
+        },
+      ],
+    },
+    "production": {
+      "vars": {
+        "FILE_URL": "https://file.note.999.vn",
+      },
+      "r2_buckets": [
+        {
+          "bucket_name": "writing-tool-bucket",
+          "binding": "FILE",
+        },
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "NoteRecordDO",
+            "class_name": "NoteRecordDO",
+          },
+        ],
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "writing-tool-db",
+          "database_id": "9ed430b7-7905-4e2d-9376-e094b5844f72",
+        },
+      ],
+    },
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["NoteRecordDO"],
+    },
+  ],
+}

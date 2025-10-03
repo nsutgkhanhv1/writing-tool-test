@@ -1,0 +1,30 @@
+{
+  "name": "api",
+  "scripts": {
+    "dev": "wrangler dev --env dev --ip 0.0.0.0",
+    "d1-migrations": "wrangler d1 migrations apply writing-tool --local --env dev",
+    "d1-migrations-remote": "wrangler d1 migrations apply writing-tool --remote --env production",
+    "deploy": "bun run d1-migrations-remote && wrangler deploy --minify --env production",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "apply-vars": "wrangler secret bulk .dev.vars"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.5.0",
+    "@google/genai": "^1.3.0",
+    "@repo/ai": "workspace:*",
+    "@repo/common": "workspace:*",
+    "@repo/contract": "workspace:*",
+    "@sinclair/typebox": "latest",
+    "events": "^3.3.0",
+    "hono": "^4.7.9",
+    "jose": "^6.0.11",
+    "kysely": "^0.28.2",
+    "kysely-d1": "^0.4.0",
+    "kysely-plugin-serialize": "^0.8.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250722.0",
+    "wrangler": "4"
+  }
+}
