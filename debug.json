@@ -1,0 +1,91 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "dreamshaperXL_lightningDPMSDE.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "CheckpointLoaderSimple"
+    }
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "EmptyLatentImage"
+    }
+  },
+  "3": {
+    "inputs": {
+      "clip": ["1", 1],
+      "text": "(anime screencap:1.5), anime comic, elderly Asian man, around 70 years old, lean body type, long white hair in a topknot, thin beard, (neutral standing pose:1.5), (thick brush stroke with flat color:1.5)"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "4": {
+    "inputs": {
+      "clip": ["1", 1],
+      "text": "text, watermark, deformed, bad hand, bad face, (bad anatomy:1.5), (extra limbs:2), bad quality, worst quality, bad drawing from bad artist, render, 3D, photorealistic, young, female, short hair, full beard, overweight, text, watermark, blurry, noisy, messy, lowres, jpeg, artifacts"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "5": {
+    "inputs": {
+      "cfg": 2,
+      "steps": 4,
+      "denoise": 1,
+      "latent_image": ["2", 0],
+      "model": ["1", 0],
+      "negative": ["4", 0],
+      "positive": ["3", 0],
+      "sampler_name": "dpmpp_sde_gpu",
+      "scheduler": "karras",
+      "seed": 1662894328
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "6": {
+    "inputs": {
+      "samples": ["5", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAEDecode"
+    }
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": ["8", 0]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "SaveImage"
+    }
+  },
+  "8": {
+    "inputs": {
+      "cascade_xml": "lbpcascade_animeface.xml",
+      "crop_padding_factor": 0.25,
+      "image": ["6", 0]
+    },
+    "class_type": "Image Crop Face",
+    "_meta": {
+      "title": "Image Crop Face"
+    }
+  }
+}
